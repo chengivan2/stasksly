@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 export default function SignIn() {
   const supabase = createClient();
-  const session = supabase.auth.getSession()
+  const session = supabase.auth.getSession();
   const router = useRouter();
 
   const [siSuccess, setSiSuccess] = useState(false);
@@ -38,7 +38,7 @@ export default function SignIn() {
           email: "",
           password: "",
         });
-        router.push("/todos");
+        router.push("/dashboard");
       }
     } catch (error) {
       console.error("Unexpected error:", error.message);
@@ -46,9 +46,7 @@ export default function SignIn() {
     }
   };
 
-  if (session) {
-    return router.push("/todos");
-  } else {
+  
     return (
       <div>
         <h1>Sign In</h1>
@@ -74,5 +72,5 @@ export default function SignIn() {
         </form>
       </div>
     );
-  }
+  
 }
