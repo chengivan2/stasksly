@@ -55,7 +55,7 @@ export default function SignIn() {
   if (session) {
     return (
       <div>
-        <p>Hey! You are logged in! Taking you to your tasks shortly.</p>
+        <p>Hey, you are logged in! Taking you to your tasks shortly.</p>
       </div>
     );
   }
