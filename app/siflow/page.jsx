@@ -52,16 +52,9 @@ export default function SignIn() {
     }
   };
 
-  if (session) {
-    return (
-      <div>
-        <p>Hey, you are logged in! Taking you to your tasks shortly.</p>
-      </div>
-    );
-  }
-
   return (
     <div>
+      {session&&<p>You are loggin in. Redireting shortly</p>}
       <h1>Sign In</h1>
       {siSuccess && <p>Logged in</p>}
       <form onSubmit={handleSubmit}>
