@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 
@@ -7,6 +7,12 @@ export default function SignIn() {
   const supabase = createClient();
   const session = supabase.auth.getSession();
   const router = useRouter();
+
+  useEffect(() => {
+    if (session) {
+      router.push("/dashboard");
+    }
+  }, []);
 
   const [siSuccess, setSiSuccess] = useState(false);
   const [formData, setFormData] = useState({
@@ -46,31 +52,37 @@ export default function SignIn() {
     }
   };
 
-  
+  if (session) {
     return (
       <div>
-        <h1>Sign In</h1>
-        {siSuccess && <p>Logged in</p>}
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-          <br />
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter your Password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-          <br />
-          <button type="submit">Sign In</button>
-        </form>
+        <p>Hey! You are logged in! Taking you to your tasks shortly.</p>
       </div>
     );
-  
+  }
+
+  return (
+    <div>
+      <h1>Sign In</h1>
+      {siSuccess && <p>Logged in</p>}
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <br />
+        <input
+          type="password"
+          name="password"
+          placeholder="Enter your Password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+        <br />
+        <button type="submit">Sign In</button>
+      </form>
+    </div>
+  );
 }

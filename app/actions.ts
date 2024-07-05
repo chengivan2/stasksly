@@ -1,5 +1,5 @@
-import { revalidateTag } from "next/cache";
+import { redirect } from 'next/navigation'
 
-export default async function revalidateTodos() {
-  revalidateTag("/todos/Todos.jsx");
+export async function loggedin() {
+  redirect("/dashboard")
 }

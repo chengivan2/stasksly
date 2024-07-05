@@ -10,11 +10,14 @@ export default async function Dashboard() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  
-    return (
-      <div>
-        <Taskform />
-        <Todos />
-      </div>
-    );
+  if (!user) {
+    return redirect("/siflow");
+  }
+
+  return (
+    <div>
+      <Taskform />
+      <Todos />
+    </div>
+  );
 }
