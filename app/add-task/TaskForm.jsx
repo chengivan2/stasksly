@@ -25,7 +25,7 @@ const TaskForm = () => {
         } else {
           setTaskCreated(true);
           router.refresh();
-          setTaskName(""); // Clear the input field
+          setTaskName("");
         }
       }
     } catch (error) {
