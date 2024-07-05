@@ -2,18 +2,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
+import { permanentRedirect } from "next/navigation";
 
 export default function SignUp() {
   const supabase = createClient();
   const session = supabase.auth.getSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (session) {
-      router.push("/dashboard");
-    }
-  }, []);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -59,13 +52,7 @@ export default function SignUp() {
     }
   };
   if (session) {
-    return (
-      <div>
-        <p>
-          Hey, you already have an account! Taking you to your tasks shortly.
-        </p>
-      </div>
-    );
+    permanentRedirect("/dashboard");
   }
 
   return (

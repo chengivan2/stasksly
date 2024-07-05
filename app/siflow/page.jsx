@@ -2,17 +2,12 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
+import { permanentRedirect } from "next/navigation";
 
 export default function SignIn() {
   const supabase = createClient();
   const session = supabase.auth.getSession();
   const router = useRouter();
-
-  useEffect(() => {
-    if (session) {
-      router.push("/dashboard");
-    }
-  }, []);
 
   const [siSuccess, setSiSuccess] = useState(false);
   const [formData, setFormData] = useState({
@@ -52,9 +47,12 @@ export default function SignIn() {
     }
   };
 
+  if (session) {
+    permanentRedirect("/dashboard");
+  }
+
   return (
     <div>
-      {session&&<p>You are loggin in. Redireting shortly</p>}
       <h1>Sign In</h1>
       {siSuccess && <p>Logged in</p>}
       <form onSubmit={handleSubmit}>
