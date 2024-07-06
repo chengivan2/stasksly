@@ -1,8 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+
+import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
-import { permanentRedirect } from "next/navigation";
+import Link from "next/link";
 
 export default function SignIn() {
   const supabase = createClient();
@@ -47,33 +48,39 @@ export default function SignIn() {
     }
   };
 
-  if (session) {
-    permanentRedirect("/dashboard");
-  }
-
   return (
     <div>
-      <h1>Sign In</h1>
-      {siSuccess && <p>Logged in</p>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        <br />
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter your Password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        <br />
-        <button type="submit">Sign In</button>
-      </form>
+      {session ? (
+        <div>
+          <p>You are already logged in.</p>
+          <Link href="/dashboard">Go to Dashboard</Link>
+
+        </div>
+      ) : (
+        <>
+          <h1>Sign In</h1>
+          {siSuccess && <p>Logged in</p>}
+          <form onSubmit={handleSubmit}>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+            <br />
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your Password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+            <br />
+            <button type="submit">Sign In</button>
+          </form>
+        </>
+      )}
     </div>
   );
 }

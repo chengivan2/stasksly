@@ -1,8 +1,9 @@
-// pages/signup.js
 "use client";
-import { useState, useEffect } from "react";
+
+import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { permanentRedirect } from "next/navigation";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default function SignUp() {
   const supabase = createClient();
@@ -51,40 +52,55 @@ export default function SignUp() {
       // Handle unexpected errors (e.g., network issues)
     }
   };
-  if (session) {
-    permanentRedirect("/dashboard");
-  }
+
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    return redirect("/suflow");
+  };
 
   return (
     <div>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        <br />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        <br />
-        <input
-          type="text"
-          name="first_name"
-          placeholder="First Name"
-          value={formData.first_name}
-          onChange={handleChange}
-        />
-        <br />
-        <button type="submit">Sign Up</button>
-      </form>
+      {session ? (
+        <div>
+          <p>You are already logged in.</p>
+          <Link href="/dashboard">Go to Dashboard</Link>
+          <p>Need another account?</p>
+          <form action={signOut}>
+            <button>Logout first</button>
+          </form>
+        </div>
+      ) : (
+        <>
+          <h1>Sign Up</h1>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+            <br />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+            <br />
+            <input
+              type="text"
+              name="first_name"
+              placeholder="First Name"
+              value={formData.first_name}
+              onChange={handleChange}
+            />
+            <br />
+            <button type="submit">Sign Up</button>
+          </form>
+        </>
+      )}
     </div>
   );
 }
