@@ -2,7 +2,7 @@ import React from "react";
 import Taskform from "../add-task/TaskForm";
 import Todos from "../todos/Todos";
 import { createClient } from "@/utils/supabase/server";
-import { permanentRedirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function Dashboard() {
   const supabase = createClient();
@@ -10,14 +10,17 @@ export default async function Dashboard() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    permanentRedirect('/dashboard');
-  }
-
   return (
     <div>
+      {
+      user?
+      <>
       <Taskform />
       <Todos />
+      </>:
+      <p>You have to <u><Link href="/siflow">Log in</Link></u></p>
+      }
+      
     </div>
   );
 }

@@ -22,7 +22,6 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const supabase = createClient();
 
     try {
       const { data, error } = await supabase.auth.signUp({
@@ -54,8 +53,9 @@ export default function SignUp() {
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
-    return redirect("/suflow");
+    const { error } = await supabase.auth.signOut();
+    console.log(error?`${error}`:"signed out")
+    
   };
 
   return (
