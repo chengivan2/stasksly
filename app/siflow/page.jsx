@@ -4,8 +4,11 @@ import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { revalidatePath } from "next/cache";
 
 export default function SignIn() {
+  revalidatePath("/");
+
   const supabase = createClient();
   const session = supabase.auth.getSession();
   const router = useRouter();
@@ -54,7 +57,6 @@ export default function SignIn() {
         <div>
           <p>You are already logged in.</p>
           <Link href="/dashboard">Go to Dashboard</Link>
-
         </div>
       ) : (
         <>

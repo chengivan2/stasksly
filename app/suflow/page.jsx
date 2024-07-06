@@ -3,9 +3,12 @@
 import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export default function SignUp() {
+
+  revalidatePath("/");
+  
   const supabase = createClient();
   const session = supabase.auth.getSession();
 
